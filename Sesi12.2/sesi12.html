@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membaca Data JSON</title>
+
+
+    <style>
+        table, tr, th, td{text-align: center;
+            font-size: larger;
+            font-family: "Lucida Console", "Courier New", monospace;
+            border: 1px solid;
+            padding: 20px 20px 20px 20px;}
+        th{background-color: black;
+            color: aliceblue;
+            border-collapse: collapse;}
+        h1{text-align: center;
+            background-color: rgb(146, 248, 171);}
+    </style>
+
+    
+</head>
+
+<body>
+    <a href="sesi12-new.html">Data Baru</a>
+    <div id="TampilData"></div>
+
+    
+
+
+    
+
+    <script>
+        const jsHTTP = new XMLHttpRequest();
+        jsHTTP.open("GET","https://webpro.ptov.my.id/api/curduser.php?aksi=get");
+        jsHTTP.send();
+
+        jsHTTP.onload = function(){
+            const dta = JSON.parse(this.responseText);
+            console.log(dta); 
+            let tx = "<h1>List Data</h1>";
+            tx += "<center><table><tr><th>No</th><th>Nama</th><th>Email</th><th>Username</th><th>Aksi</th></tr>";
+            let no = 1;
+            for(let i=0; i<dta.isi.length;i++){
+                tx +="<tr>";
+                tx +="  <td>"+no+"</td>";
+                tx +="  <td>"+dta.isi[i][0]+"</td>";
+                tx +="  <td>"+dta.isi[i][1]+"</td>";
+                tx +="  <td>"+dta.isi[i][2]+"</td>";
+                tx +="  <td><a href='sesi12-edit.html?id="+dta.isi[i][3]+"'>EDIT</a>";
+                tx +="  <a href='sesi12-del.html?id="+dta.isi[i][4]+"'>HAPUS</a></td>";
+                tx +="</tr>";
+                no++;
+            }
+            tx += "</table></center>";
+            document.getElementById("TampilData").innerHTML = tx;
+
+        }
+    </script>
+</body>
+</html>
